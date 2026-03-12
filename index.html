@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 
   :root {
     --navy: #1a3a6b;
@@ -25,11 +25,11 @@
     --shadow-lg: 0 12px 48px rgba(11,31,58,0.18);
   }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; background: #1a3a6b; }
 
   body {
     font-family: 'Barlow', sans-serif;
-    background: linear-gradient(160deg, #0d1f3c 0%, #1a3a6b 40%, #1e4480 100%);
+    background: #1a3a6b;
     color: var(--white);
     min-height: 100vh;
     overflow-x: hidden;
@@ -502,6 +502,77 @@
     .two-col { grid-template-columns: 1fr; }
   }
 
+  /* ── FILE UPLOAD ── */
+  .upload-zone {
+    border: 2px dashed rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 36px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: rgba(255,255,255,0.02);
+  }
+
+  .upload-zone:hover, .upload-zone.dragover {
+    border-color: var(--gold);
+    background: rgba(245,197,24,0.04);
+  }
+
+  .upload-icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
+
+  .upload-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 6px;
+  }
+
+  .upload-hint {
+    font-size: 13px;
+    color: var(--gray-mid);
+  }
+
+  .file-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .file-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+    color: rgba(255,255,255,0.8);
+  }
+
+  .file-item-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .file-remove {
+    background: none;
+    border: none;
+    color: var(--gray-mid);
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0;
+    line-height: 1;
+    transition: color 0.15s;
+  }
+
+  .file-remove:hover { color: var(--red); }
+
   .req-star {
     color: var(--red);
     font-weight: 900;
@@ -652,7 +723,7 @@
 
   <!-- FORM CARD -->
   <div class="form-card" id="form-card">
-    <form id="activate-form" action="https://formspree.io/f/xnjgvjyw" method="POST">
+    <form id="activate-form" action="https://formspree.io/f/xnjgvjyw" method="POST" enctype="multipart/form-data">
 
       <!-- Hidden fields -->
       <input type="hidden" name="_subject" value="New Activation Inquiry — SponsorSource">
@@ -803,10 +874,28 @@
         </div>
       </div>
 
-      <!-- STEP 6: GOALS -->
+      <!-- STEP 6: VISUALS -->
       <div class="form-section">
         <div class="section-label">
           <div class="step-badge">6</div>
+          <div class="section-title">Share Your Display Visuals</div>
+        </div>
+        <div class="section-hint" style="margin-bottom:18px;">Photos, renderings, or examples of your display — anything helps us match you to the right venues</div>
+        <div class="field-group">
+          <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-upload').click()">
+            <div class="upload-icon">📎</div>
+            <div class="upload-label">Click to upload photos or drag them here</div>
+            <div class="upload-hint">JPG, PNG, PDF — up to 10MB each</div>
+            <input type="file" id="file-upload" name="Display Visuals" accept="image/*,.pdf" multiple style="display:none" onchange="handleFiles(this.files)">
+          </div>
+          <div id="file-list" class="file-list"></div>
+        </div>
+      </div>
+
+      <!-- STEP 7: GOALS -->
+      <div class="form-section">
+        <div class="section-label">
+          <div class="step-badge">7</div>
           <div class="section-title">Anything Else We Should Know?</div>
         </div>
         <div class="section-hint" style="margin-bottom:18px;">Target demo, sample quantities, budget range, distribution footprint — anything helps</div>
@@ -959,7 +1048,61 @@ function selectType(card, value) {
 }
 
 // Form submit
-document.getElementById('activate-form').addEventListener('submit', async function(e) {
+// File upload handling
+let uploadedFiles = [];
+
+const uploadZone = document.getElementById('upload-zone');
+
+uploadZone.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  uploadZone.classList.add('dragover');
+});
+
+uploadZone.addEventListener('dragleave', () => {
+  uploadZone.classList.remove('dragover');
+});
+
+uploadZone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  uploadZone.classList.remove('dragover');
+  handleFiles(e.dataTransfer.files);
+});
+
+function handleFiles(files) {
+  Array.from(files).forEach(file => {
+    if (!uploadedFiles.find(f => f.name === file.name)) {
+      uploadedFiles.push(file);
+      renderFileList();
+    }
+  });
+  // Update the file input with the current files
+  const dt = new DataTransfer();
+  uploadedFiles.forEach(f => dt.items.add(f));
+  document.getElementById('file-upload').files = dt.files;
+}
+
+function removeFile(name) {
+  uploadedFiles = uploadedFiles.filter(f => f.name !== name);
+  const dt = new DataTransfer();
+  uploadedFiles.forEach(f => dt.items.add(f));
+  document.getElementById('file-upload').files = dt.files;
+  renderFileList();
+}
+
+function renderFileList() {
+  const list = document.getElementById('file-list');
+  list.innerHTML = uploadedFiles.map(f => `
+    <div class="file-item">
+      <div class="file-item-name">
+        <span>📄</span>
+        <span>${f.name} <span style="color:var(--gray-mid);font-size:12px">(${(f.size/1024).toFixed(0)}KB)</span></span>
+      </div>
+      <button type="button" class="file-remove" onclick="removeFile('${f.name}')" title="Remove">✕</button>
+    </div>
+  `).join('');
+}
+
+document.getElementById('activate-form').addEventListener('submit, async function(e) {
   e.preventDefault();
 
   // Custom validation
