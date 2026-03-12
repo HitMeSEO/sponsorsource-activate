@@ -934,6 +934,7 @@
 </div>
 
 <script>
+document.addEventListener('DOMContentLoaded', function() {
 const REGIONS = {
   "Northeast": ["CT","ME","MA","NH","NJ","NY","PA","RI","VT"],
   "Southeast": ["DE","MD","VA","WV","NC","SC","GA","FL","AL","MS","TN","KY"],
@@ -1102,7 +1103,7 @@ function renderFileList() {
   `).join('');
 }
 
-document.getElementById('activate-form').addEventListener('submit, async function(e) {
+document.getElementById('activate-form').addEventListener('submit', async function(e) {
   e.preventDefault();
 
   // Custom validation
@@ -1158,6 +1159,7 @@ document.getElementById('activate-form').addEventListener('submit, async functio
     btn.disabled = false;
   }
 });
+}); // DOMContentLoaded
 </script>
 
 </body>
