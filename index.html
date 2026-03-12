@@ -738,7 +738,7 @@
         </div>
         <div class="section-hint" style="margin-bottom:18px;">What are you looking to do at these events?</div>
         <div class="type-grid" id="type-grid">
-          <label class="type-card" onclick="selectType(this, 'Product Sampling')">
+          <label class="type-card" data-type="Product Sampling">
             <input type="radio" name="activation_type_radio" value="Product Sampling">
             <div class="type-radio"></div>
             <div class="type-info">
@@ -746,7 +746,7 @@
               <div class="type-desc">Hand samples directly to attendees</div>
             </div>
           </label>
-          <label class="type-card" onclick="selectType(this, 'Booth / Brand Activation')">
+          <label class="type-card" data-type="Booth / Brand Activation">
             <input type="radio" name="activation_type_radio" value="Booth / Brand Activation">
             <div class="type-radio"></div>
             <div class="type-info">
@@ -754,7 +754,7 @@
               <div class="type-desc">Branded footprint, engagement, demos</div>
             </div>
           </label>
-          <label class="type-card" onclick="selectType(this, 'Event Sponsorship')">
+          <label class="type-card" data-type="Event Sponsorship">
             <input type="radio" name="activation_type_radio" value="Event Sponsorship">
             <div class="type-radio"></div>
             <div class="type-info">
@@ -762,7 +762,7 @@
               <div class="type-desc">Naming rights, stage, category exclusivity</div>
             </div>
           </label>
-          <label class="type-card" onclick="selectType(this, 'Mobile Tour Routing')">
+          <label class="type-card" data-type="Mobile Tour Routing">
             <input type="radio" name="activation_type_radio" value="Mobile Tour Routing">
             <div class="type-radio"></div>
             <div class="type-info">
@@ -770,7 +770,7 @@
               <div class="type-desc">Multi-market tour, vehicle or trailer</div>
             </div>
           </label>
-          <label class="type-card" onclick="selectType(this, 'Not Sure Yet')">
+          <label class="type-card" data-type="Not Sure Yet">
             <input type="radio" name="activation_type_radio" value="Not Sure Yet">
             <div class="type-radio"></div>
             <div class="type-info">
@@ -807,8 +807,8 @@
         <div class="region-filter-bar">
           <div class="region-tabs" id="region-tabs"></div>
           <div class="region-filter-actions">
-            <button type="button" class="region-btn" onclick="selectAllStates()">Select All</button>
-            <button type="button" class="region-btn" onclick="clearAllStates()">Clear</button>
+            <button type="button" class="region-btn" id="btn-select-all">Select All</button>
+            <button type="button" class="region-btn" id="btn-clear-all">Clear</button>
           </div>
         </div>
         <div class="states-pill-grid" id="states-pill-grid"></div>
@@ -935,6 +935,27 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+
+// ── TYPE CARD SELECTION ──
+document.querySelectorAll('.type-card').forEach(card => {
+  card.addEventListener('click', function() {
+    document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
+    this.classList.add('selected');
+    this.querySelector('.type-radio').style.background = 'var(--red)';
+    this.querySelector('.type-radio').style.borderColor = 'var(--red)';
+    document.querySelectorAll('.type-card:not(.selected) .type-radio').forEach(r => {
+      r.style.background = '';
+      r.style.borderColor = '';
+    });
+    document.getElementById('hidden-type').value = this.dataset.type;
+    document.getElementById('error-type').style.display = 'none';
+  });
+});
+
+// ── SELECT ALL / CLEAR ──
+document.getElementById('btn-select-all').addEventListener('click', selectAllStates);
+document.getElementById('btn-clear-all').addEventListener('click', clearAllStates);
+
 const REGIONS = {
   "Northeast": ["CT","ME","MA","NH","NJ","NY","PA","RI","VT"],
   "Southeast": ["DE","MD","VA","WV","NC","SC","GA","FL","AL","MS","TN","KY"],
@@ -971,7 +992,7 @@ Object.keys(REGIONS).forEach(region => {
   btn.type = 'button';
   btn.className = 'region-tab';
   btn.textContent = region;
-  btn.onclick = () => filterByRegion(region, btn);
+  btn.addEventListener('click', function() { filterByRegion(region, this); });
   tabsContainer.appendChild(btn);
 });
 
@@ -984,7 +1005,7 @@ ALL_STATES.forEach(abbr => {
   pill.textContent = abbr;
   pill.title = STATE_NAMES[abbr] || abbr;
   pill.dataset.state = abbr;
-  pill.onclick = () => toggleState(abbr, pill);
+  pill.addEventListener('click', function() { toggleState(abbr, this); });
   pillGrid.appendChild(pill);
 });
 
@@ -1092,15 +1113,20 @@ function removeFile(name) {
 
 function renderFileList() {
   const list = document.getElementById('file-list');
-  list.innerHTML = uploadedFiles.map(f => `
-    <div class="file-item">
+  list.innerHTML = '';
+  uploadedFiles.forEach(f => {
+    const item = document.createElement('div');
+    item.className = 'file-item';
+    item.innerHTML = `
       <div class="file-item-name">
         <span>📄</span>
         <span>${f.name} <span style="color:var(--gray-mid);font-size:12px">(${(f.size/1024).toFixed(0)}KB)</span></span>
       </div>
-      <button type="button" class="file-remove" onclick="removeFile('${f.name}')" title="Remove">✕</button>
-    </div>
-  `).join('');
+      <button type="button" class="file-remove" title="Remove">✕</button>
+    `;
+    item.querySelector('.file-remove').addEventListener('click', () => removeFile(f.name));
+    list.appendChild(item);
+  });
 }
 
 document.getElementById('activate-form').addEventListener('submit', async function(e) {
