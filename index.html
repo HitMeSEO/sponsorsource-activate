@@ -248,119 +248,113 @@
     margin-left: 44px;
   }
 
-  /* ── REGION ACCORDION ── */
-  .region-list {
+  /* ── STATE PILL SELECTOR ── */
+  .region-filter-bar {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .region-block {
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 12px;
-    overflow: hidden;
-    transition: border-color 0.2s;
-  }
-
-  .region-block.has-selection {
-    border-color: rgba(214,33,42,0.4);
-  }
-
-  .region-toggle {
-    width: 100%;
-    padding: 14px 20px;
-    background: rgba(255,255,255,0.04);
-    border: none;
-    cursor: pointer;
-    display: flex;
+    align-items: center;
     justify-content: space-between;
-    align-items: center;
-    font-family: 'Barlow', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--white);
-    transition: background 0.2s;
-  }
-
-  .region-toggle:hover { background: rgba(255,255,255,0.07); }
-
-  .region-toggle-right {
-    display: flex;
-    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
     gap: 10px;
   }
 
-  .count-badge {
-    background: var(--red);
-    color: white;
-    font-size: 12px;
+  .region-filter-label {
+    font-size: 13px;
     font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 20px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
   }
 
-  .chevron {
-    color: var(--gray-mid);
-    font-size: 14px;
-    transition: transform 0.25s;
-    display: inline-block;
-  }
-
-  .chevron.open { transform: rotate(180deg); }
-
-  .region-states {
-    display: none;
-    padding: 16px 20px;
-    background: rgba(0,0,0,0.15);
-  }
-
-  .region-states.open { display: block; }
-
-  .states-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 8px;
-  }
-
-  .state-check {
+  .region-filter-actions {
     display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    color: rgba(255,255,255,0.75);
-    padding: 6px 8px;
-    border-radius: 6px;
-    transition: background 0.15s, color 0.15s;
-    user-select: none;
-  }
-
-  .state-check:hover { background: rgba(255,255,255,0.05); color: white; }
-
-  .state-check input[type="checkbox"] { display: none; }
-
-  .check-box {
-    width: 18px;
-    height: 18px;
-    border: 1.5px solid rgba(255,255,255,0.2);
-    border-radius: 4px;
+    gap: 12px;
     flex-shrink: 0;
+  }
+
+  .region-btn {
+    background: none;
+    border: none;
+    font-family: 'Barlow', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.5);
+    cursor: pointer;
+    padding: 0;
+    letter-spacing: 0.3px;
+    transition: color 0.15s;
+  }
+
+  .region-btn:hover { color: white; }
+
+  .region-tabs {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .region-tab {
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1.5px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.04);
+    font-family: 'Barlow', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.6);
+    cursor: pointer;
     transition: all 0.15s;
   }
 
-  .state-check input:checked + .check-box {
-    background: var(--red);
-    border-color: var(--red);
+  .region-tab:hover {
+    border-color: rgba(255,255,255,0.35);
+    color: white;
   }
 
-  .state-check input:checked + .check-box::after {
-    content: '✓';
-    font-size: 11px;
+  .region-tab.active {
+    background: var(--red);
+    border-color: var(--red);
     color: white;
-    font-weight: 700;
+  }
+
+  .states-pill-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .state-pill {
+    padding: 7px 14px;
+    border-radius: 8px;
+    border: 1.5px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.04);
+    font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.65);
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+
+  .state-pill:hover {
+    border-color: rgba(255,255,255,0.3);
+    color: white;
+    background: rgba(255,255,255,0.07);
+  }
+
+  .state-pill.selected {
+    background: var(--red);
+    border-color: var(--red);
+    color: white;
+  }
+
+  .selected-count {
+    font-size: 13px;
+    color: var(--gold);
+    font-weight: 600;
+    margin-top: 14px;
+    min-height: 20px;
   }
 
   /* ── ACTIVATION TYPE ── */
@@ -508,6 +502,19 @@
     .two-col { grid-template-columns: 1fr; }
   }
 
+  .req-star {
+    color: var(--red);
+    font-weight: 900;
+    margin-left: 2px;
+  }
+
+  .field-error {
+    color: #ff6b6b;
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 10px;
+  }
+
   /* ── SUBMIT AREA ── */
   .submit-section {
     padding: 32px 40px 40px;
@@ -637,8 +644,8 @@
     <p class="subhead">Tell us your target markets and goals. We'll come back with a curated list of available events — with attendance data, activation specs, and timing.</p>
 
     <div class="trust-bar">
-      <div class="trust-item"><div class="trust-dot"></div>500M+ Attendees Since 1995</div>
-      <div class="trust-item"><div class="trust-dot"></div>500+ Events Nationwide</div>
+      <div class="trust-item"><div class="trust-dot"></div>The EXCLUSIVE door to 1/2 BILLION consumers</div>
+      
       <div class="trust-item"><div class="trust-dot"></div>Sole-Sourced Venue Relationships</div>
     </div>
   </header>
@@ -647,32 +654,18 @@
   <div class="form-card" id="form-card">
     <form id="activate-form" action="https://formspree.io/f/xnjgvjyw" method="POST">
 
-      <!-- Hidden fields for aggregated data -->
+      <!-- Hidden fields -->
       <input type="hidden" name="_subject" value="New Activation Inquiry — SponsorSource">
-      <input type="hidden" name="Selected States" id="hidden-states" value="">
       <input type="hidden" name="Activation Type" id="hidden-type" value="">
+      <input type="hidden" name="Selected States" id="hidden-states" value="">
 
-      <!-- STEP 1: WHERE -->
+      <!-- STEP 1: ACTIVATION TYPE -->
       <div class="form-section">
         <div class="section-label">
           <div class="step-badge">1</div>
-          <div class="section-title">Where Are You Looking to Activate?</div>
-        </div>
-        <div class="section-hint">Select all states or regions you're targeting</div>
-
-        <div class="region-list" id="region-list">
-          <!-- Regions injected by JS -->
-        </div>
-      </div>
-
-      <!-- STEP 2: TYPE -->
-      <div class="form-section">
-        <div class="section-label">
-          <div class="step-badge">2</div>
-          <div class="section-title">Type of Activation</div>
+          <div class="section-title">Type of Activation <span class="req-star">*</span></div>
         </div>
         <div class="section-hint" style="margin-bottom:18px;">What are you looking to do at these events?</div>
-
         <div class="type-grid" id="type-grid">
           <label class="type-card" onclick="selectType(this, 'Product Sampling')">
             <input type="radio" name="activation_type_radio" value="Product Sampling">
@@ -715,57 +708,111 @@
             </div>
           </label>
         </div>
+        <div class="field-error" id="error-type" style="display:none">Please select an activation type.</div>
       </div>
 
-      <!-- STEP 3: GOALS -->
+      <!-- STEP 2: SIZE OF DISPLAY -->
       <div class="form-section">
         <div class="section-label">
-          <div class="step-badge">3</div>
-          <div class="section-title">Tell Us About Your Goals</div>
+          <div class="step-badge">2</div>
+          <div class="section-title">Size of Display <span class="req-star">*</span></div>
         </div>
-        <div class="section-hint" style="margin-bottom:18px;">The more context you give us, the better we can match you</div>
-
+        <div class="section-hint" style="margin-bottom:18px;">Describe your footprint — e.g. "10x10 tent", "sampling table only", "20x20 branded structure"</div>
         <div class="field-group">
           <div class="field">
-            <textarea name="Goals" placeholder="Target demo, timing, sample quantities, distribution footprint, 2025 activation calendar status... anything helps." rows="4"></textarea>
+            <input type="text" name="Display Size" id="display-size" placeholder="e.g. 10x10 booth, sampling table, 20x20 branded structure..." required>
           </div>
         </div>
       </div>
 
-      <!-- STEP 4: CONTACT -->
+      <!-- STEP 3: STATES -->
+      <div class="form-section">
+        <div class="section-label">
+          <div class="step-badge">3</div>
+          <div class="section-title">Where Are You Looking to Activate? <span class="req-star">*</span></div>
+        </div>
+        <div class="section-hint" style="margin-bottom:16px;">Select all states you're targeting — click a region to filter</div>
+
+        <div class="region-filter-bar">
+          <div class="region-tabs" id="region-tabs"></div>
+          <div class="region-filter-actions">
+            <button type="button" class="region-btn" onclick="selectAllStates()">Select All</button>
+            <button type="button" class="region-btn" onclick="clearAllStates()">Clear</button>
+          </div>
+        </div>
+        <div class="states-pill-grid" id="states-pill-grid"></div>
+        <div class="selected-count" id="selected-count"></div>
+        <div class="field-error" id="error-states" style="display:none">Please select at least one state.</div>
+      </div>
+
+      <!-- STEP 4: DATES -->
       <div class="form-section">
         <div class="section-label">
           <div class="step-badge">4</div>
-          <div class="section-title">Who Should We Send This To?</div>
+          <div class="section-title">Activation Dates</div>
         </div>
-        <div class="section-hint" style="margin-bottom:18px;">We typically respond within one business day</div>
-
+        <div class="section-hint" style="margin-bottom:18px;">When are you looking to activate? (optional — even a rough timeframe helps)</div>
         <div class="field-group">
           <div class="two-col">
             <div class="field">
-              <label>First Name</label>
+              <label>Earliest Start</label>
+              <input type="text" name="Earliest Start Date" placeholder="e.g. May 2026, Summer 2026">
+            </div>
+            <div class="field">
+              <label>Latest End</label>
+              <input type="text" name="Latest End Date" placeholder="e.g. September 2026, Flexible">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 5: CONTACT -->
+      <div class="form-section">
+        <div class="section-label">
+          <div class="step-badge">5</div>
+          <div class="section-title">Who Should We Send This To? <span class="req-star">*</span></div>
+        </div>
+        <div class="section-hint" style="margin-bottom:18px;">We typically respond within one business day</div>
+        <div class="field-group">
+          <div class="two-col">
+            <div class="field">
+              <label>First Name <span class="req-star">*</span></label>
               <input type="text" name="First Name" placeholder="Jane" required>
             </div>
             <div class="field">
-              <label>Last Name</label>
+              <label>Last Name <span class="req-star">*</span></label>
               <input type="text" name="Last Name" placeholder="Smith" required>
             </div>
           </div>
           <div class="field">
-            <label>Brand / Company</label>
-            <input type="text" name="Brand" placeholder="Your brand or company name" required>
+            <label>Brand or Agency Name <span class="req-star">*</span></label>
+            <input type="text" name="Brand or Agency" placeholder="Your brand or agency name" required>
           </div>
           <div class="field">
             <label>Title / Role</label>
             <input type="text" name="Title" placeholder="e.g. Head of Marketing, Events Manager">
           </div>
           <div class="field">
-            <label>Email</label>
+            <label>Email <span class="req-star">*</span></label>
             <input type="email" name="Email" placeholder="you@yourbrand.com" required>
           </div>
           <div class="field">
             <label>Phone (optional)</label>
             <input type="tel" name="Phone" placeholder="(555) 000-0000">
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 6: GOALS -->
+      <div class="form-section">
+        <div class="section-label">
+          <div class="step-badge">6</div>
+          <div class="section-title">Anything Else We Should Know?</div>
+        </div>
+        <div class="section-hint" style="margin-bottom:18px;">Target demo, sample quantities, budget range, distribution footprint — anything helps</div>
+        <div class="field-group">
+          <div class="field">
+            <textarea name="Additional Notes" placeholder="Optional — the more context, the better we can match you." rows="4"></textarea>
           </div>
         </div>
       </div>
@@ -799,68 +846,110 @@
 
 <script>
 const REGIONS = {
-  "Northeast": ["Connecticut","Maine","Massachusetts","New Hampshire","New Jersey","New York","Pennsylvania","Rhode Island","Vermont"],
-  "Mid-Atlantic & Southeast": ["Delaware","Maryland","Virginia","West Virginia","North Carolina","South Carolina","Georgia","Florida"],
-  "Midwest": ["Illinois","Indiana","Iowa","Kansas","Michigan","Minnesota","Missouri","Nebraska","North Dakota","Ohio","South Dakota","Wisconsin"],
-  "South & Gulf": ["Alabama","Arkansas","Kentucky","Louisiana","Mississippi","Oklahoma","Tennessee","Texas"],
-  "Mountain & Southwest": ["Arizona","Colorado","Idaho","Montana","Nevada","New Mexico","Utah","Wyoming"],
-  "Pacific": ["Alaska","California","Hawaii","Oregon","Washington"],
-  "National / Open to All": ["National — All Markets"]
+  "Northeast": ["CT","ME","MA","NH","NJ","NY","PA","RI","VT"],
+  "Southeast": ["DE","MD","VA","WV","NC","SC","GA","FL","AL","MS","TN","KY"],
+  "Midwest": ["IL","IN","IA","KS","MI","MN","MO","NE","ND","OH","SD","WI"],
+  "Southwest": ["AZ","NM","OK","TX","AR","LA"],
+  "West": ["AK","CA","CO","HI","ID","MT","NV","OR","UT","WA","WY"]
 };
 
-// Build region accordions
-const container = document.getElementById('region-list');
-Object.entries(REGIONS).forEach(([region, states]) => {
-  const block = document.createElement('div');
-  block.className = 'region-block';
-  block.dataset.region = region;
+const STATE_NAMES = {
+  "CT":"Connecticut","ME":"Maine","MA":"Massachusetts","NH":"New Hampshire","NJ":"New Jersey",
+  "NY":"New York","PA":"Pennsylvania","RI":"Rhode Island","VT":"Vermont","DE":"Delaware",
+  "MD":"Maryland","VA":"Virginia","WV":"West Virginia","NC":"North Carolina","SC":"South Carolina",
+  "GA":"Georgia","FL":"Florida","AL":"Alabama","MS":"Mississippi","TN":"Tennessee","KY":"Kentucky",
+  "IL":"Illinois","IN":"Indiana","IA":"Iowa","KS":"Kansas","MI":"Michigan","MN":"Minnesota",
+  "MO":"Missouri","NE":"Nebraska","ND":"North Dakota","OH":"Ohio","SD":"South Dakota","WI":"Wisconsin",
+  "AZ":"Arizona","NM":"New Mexico","OK":"Oklahoma","TX":"Texas","AR":"Arkansas","LA":"Louisiana",
+  "AK":"Alaska","CA":"California","CO":"Colorado","HI":"Hawaii","ID":"Idaho","MT":"Montana",
+  "NV":"Nevada","OR":"Oregon","UT":"Utah","WA":"Washington","WY":"Wyoming","DC":"Washington DC"
+};
 
-  block.innerHTML = `
-    <button type="button" class="region-toggle" onclick="toggleRegion(this)">
-      <span>${region}</span>
-      <span class="region-toggle-right">
-        <span class="count-badge" style="display:none">0</span>
-        <span class="chevron">▾</span>
-      </span>
-    </button>
-    <div class="region-states">
-      <div class="states-grid">
-        ${states.map(s => `
-          <label class="state-check">
-            <input type="checkbox" name="state_${s.replace(/\s/g,'_')}" value="${s}" onchange="updateStateCounts()">
-            <span class="check-box"></span>
-            <span>${s}</span>
-          </label>
-        `).join('')}
-      </div>
-    </div>`;
-  container.appendChild(block);
+const ALL_STATES = ["AK","AL","AR","AZ","CA","CO","CT","DC","DE","FL","GA","HI",
+  "IA","ID","IL","IN","KS","KY","LA","MA","MD","ME","MI","MN",
+  "MO","MS","MT","NC","ND","NE","NH","NJ","NM","NV","NY",
+  "OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VA","VT",
+  "WA","WI","WV","WY"];
+
+let selectedStates = new Set();
+let activeRegion = null;
+
+// Build region tabs
+const tabsContainer = document.getElementById('region-tabs');
+Object.keys(REGIONS).forEach(region => {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'region-tab';
+  btn.textContent = region;
+  btn.onclick = () => filterByRegion(region, btn);
+  tabsContainer.appendChild(btn);
 });
 
-function toggleRegion(btn) {
-  const states = btn.nextElementSibling;
-  const chevron = btn.querySelector('.chevron');
-  const isOpen = states.classList.contains('open');
-  // close all
-  document.querySelectorAll('.region-states').forEach(el => el.classList.remove('open'));
-  document.querySelectorAll('.chevron').forEach(el => el.classList.remove('open'));
-  if (!isOpen) {
-    states.classList.add('open');
-    chevron.classList.add('open');
+// Build state pills
+const pillGrid = document.getElementById('states-pill-grid');
+ALL_STATES.forEach(abbr => {
+  const pill = document.createElement('button');
+  pill.type = 'button';
+  pill.className = 'state-pill';
+  pill.textContent = abbr;
+  pill.title = STATE_NAMES[abbr] || abbr;
+  pill.dataset.state = abbr;
+  pill.onclick = () => toggleState(abbr, pill);
+  pillGrid.appendChild(pill);
+});
+
+function filterByRegion(region, btn) {
+  const tabs = document.querySelectorAll('.region-tab');
+  if (activeRegion === region) {
+    // deactivate
+    activeRegion = null;
+    tabs.forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.state-pill').forEach(p => p.style.display = '');
+  } else {
+    activeRegion = region;
+    tabs.forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    const regionStates = REGIONS[region];
+    document.querySelectorAll('.state-pill').forEach(p => {
+      p.style.display = regionStates.includes(p.dataset.state) ? '' : 'none';
+    });
   }
 }
 
-function updateStateCounts() {
-  document.querySelectorAll('.region-block').forEach(block => {
-    const checked = block.querySelectorAll('input[type="checkbox"]:checked').length;
-    const badge = block.querySelector('.count-badge');
-    badge.textContent = checked;
-    badge.style.display = checked > 0 ? 'inline' : 'none';
-    block.classList.toggle('has-selection', checked > 0);
+function toggleState(abbr, pill) {
+  if (selectedStates.has(abbr)) {
+    selectedStates.delete(abbr);
+    pill.classList.remove('selected');
+  } else {
+    selectedStates.add(abbr);
+    pill.classList.add('selected');
+  }
+  updateHiddenField();
+}
+
+function selectAllStates() {
+  const visiblePills = document.querySelectorAll('.state-pill:not([style*="display: none"])');
+  visiblePills.forEach(pill => {
+    selectedStates.add(pill.dataset.state);
+    pill.classList.add('selected');
   });
-  // update hidden field
-  const allChecked = Array.from(document.querySelectorAll('.region-states input:checked')).map(i => i.value);
-  document.getElementById('hidden-states').value = allChecked.join(', ') || 'None selected';
+  updateHiddenField();
+}
+
+function clearAllStates() {
+  selectedStates.clear();
+  document.querySelectorAll('.state-pill').forEach(p => p.classList.remove('selected'));
+  document.querySelectorAll('.region-tab').forEach(t => t.classList.remove('active'));
+  activeRegion = null;
+  document.querySelectorAll('.state-pill').forEach(p => p.style.display = '');
+  updateHiddenField();
+}
+
+function updateHiddenField() {
+  const names = Array.from(selectedStates).map(a => STATE_NAMES[a] || a);
+  document.getElementById('hidden-states').value = names.join(', ') || 'None selected';
+  const count = selectedStates.size;
+  document.getElementById('selected-count').textContent = count > 0 ? `${count} state${count > 1 ? 's' : ''} selected: ${Array.from(selectedStates).join(', ')}` : '';
 }
 
 function selectType(card, value) {
@@ -873,13 +962,38 @@ function selectType(card, value) {
 document.getElementById('activate-form').addEventListener('submit', async function(e) {
   e.preventDefault();
 
+  // Custom validation
+  let valid = true;
+
+  // Check activation type
+  if (!document.getElementById('hidden-type').value) {
+    document.getElementById('error-type').style.display = 'block';
+    valid = false;
+  } else {
+    document.getElementById('error-type').style.display = 'none';
+  }
+
+  // Check states
+  if (selectedStates.size === 0) {
+    document.getElementById('error-states').style.display = 'block';
+    valid = false;
+  } else {
+    document.getElementById('error-states').style.display = 'none';
+  }
+
+  if (!valid) {
+    // Scroll to first error
+    document.querySelector('.field-error:not([style*="display: none"])').scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+
   const btn = this.querySelector('.submit-btn');
   btn.textContent = 'Sending...';
   btn.disabled = true;
 
   // Sync hidden fields one more time
-  const allChecked = Array.from(document.querySelectorAll('.region-states input:checked')).map(i => i.value);
-  document.getElementById('hidden-states').value = allChecked.join(', ') || 'None selected';
+  const names = Array.from(selectedStates).map(a => STATE_NAMES[a] || a);
+  document.getElementById('hidden-states').value = names.join(', ') || 'None selected';
 
   try {
     const data = new FormData(this);
